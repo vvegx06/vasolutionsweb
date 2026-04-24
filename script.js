@@ -34,7 +34,7 @@ const serviceData = {
   nosotros: {
     title: 'Sobre VA Solutions',
     icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>',
-    description: 'VA Solutions fue fundada en 2026 por un joven de 19 años con una visión clara: hacer la tecnología accesible y sencilla para empresas pequeñas que querem crecer en el mundo digital.',
+    description: 'VA Solutions fue fundada en 2026 por un joven de 19 años con una visión clara: hacer la tecnología accesible y sencilla para empresas pequeñas que quieran crecer en el mundo digital.',
     features: ['Fundación 2026', 'Fundador de 19 años', 'Enfoque en empresas pequeñas', 'Tecnología accesible', 'Pasión por crecer', 'Compromiso real']
   },
   web: {
