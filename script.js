@@ -152,7 +152,7 @@ function openPopup(service) {
             '</ul></div>' +
             '<div class="plan-section"><h5>Duración:</h5><p>' + opt.duration + '</p></div>' +
             '<div class="plan-section"><h5>Cancelación:</h5><p>' + opt.cancel + '</p></div>' +
-            '<a href="https://wa.me/50683886455?text=' + encodeURIComponent('Hola! Estoy interesados en el plan ' + opt.name + ' (' + opt.price + ')') + '" class="btn btn-primary plan-btn" target="_blank">Elegir este plan</a>' +
+            '<a href="https://wa.me/50683886445?text=' + encodeURIComponent('Hola! Estoy interesados en el plan ' + opt.name + ' (' + opt.price + ')') + '" class="btn btn-primary plan-btn" target="_blank">Elegir este plan</a>' +
           '</div>' +
         '</div>';
     });
@@ -167,7 +167,7 @@ function openPopup(service) {
     // Set WhatsApp link with message for service popups
     if (data.waMsg) {
       var encodedMsg = encodeURIComponent(data.waMsg);
-      var waLink = 'https://wa.me/50683886455?text=' + encodedMsg;
+      var waLink = 'https://wa.me/50683886445?text=' + encodedMsg;
       cta.href = waLink;
       cta.onclick = function(e) {
         e.preventDefault();
@@ -188,7 +188,7 @@ function openPopup(service) {
 // Function to handle option selection
 function selectOption(msg) {
   var decodedMsg = decodeURIComponent(msg);
-  var waLink = 'https://wa.me/50683886455?text=' + msg;
+  var waLink = 'https://wa.me/50683886445?text=' + msg;
   window.open(waLink, '_blank');
 }
 
