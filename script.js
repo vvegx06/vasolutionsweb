@@ -19,6 +19,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Popup functions (global scope)
 const serviceData = {
+  privacidad: {
+    title: 'Política de Privacidad',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+    description: 'En VA Solutions respetamos tu privacidad y nos comprometemos a proteger tus datos personales.',
+    features: ['No compartimos tus datos con terceros', 'Almacenamiento seguro de información', 'Derecho a eliminar tus datos', 'Cookies solo esenciales', 'Transacciones encriptadas']
+  },
+  terminos: {
+    title: 'Términos y Condiciones',
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>',
+    description: 'Términos y condiciones generales para los servicios de VA Solutions.',
+    features: ['Pago por anticipado en proyectos puntuales', 'Contratos mensuales requieren compromiso mínimo de 1 mes', 'Cancelaciones con 15 días de anticipación', 'El cliente provee acceso a sus plataformas', 'IVA no incluido en precios publicados']
+  },
   nosotros: {
     title: 'Sobre VA Solutions',
     icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>',
