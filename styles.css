@@ -434,3 +434,57 @@ body {
   box-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
   transition: width 0.1s linear;
 }
+
+/* ─── RESPONSIVE: 480px ─── */
+@media (max-width: 480px) {
+  .loader-text { font-size: 1.5rem; letter-spacing: 0.2em; }
+
+  .navbar { padding: 1rem 1.25rem; }
+
+  .hero { padding: 5rem 1.25rem 6rem; }
+  .hero-tag { font-size: 0.625rem; margin-bottom: 1.5rem; }
+  .hero-desc { font-size: 0.9375rem; }
+  .hero-metrics { gap: 1.5rem; margin-top: 2rem; }
+  .metric-num { font-size: 1.5rem; }
+
+  .section { padding: 5rem 1.25rem; }
+  .section-title { font-size: clamp(2rem, 8vw, 2.5rem); }
+
+  .btn { padding: 0.875rem 1.5rem; font-size: 0.75rem; }
+  .btn-lg { padding: 1rem 2rem; font-size: 0.8125rem; }
+
+  .nosotros-quote { font-size: 1.125rem; padding-left: 1rem; }
+  .stat-card { padding: 1.5rem; }
+  .stat-value { font-size: 2rem; }
+
+  .service-card { padding: 2rem 1.25rem; }
+  .service-card h3 { font-size: 1.25rem; }
+
+  .proyecto-img { padding: 1rem; }
+  .proyecto-info h3 { font-size: 1rem; }
+  .proyecto-info p { font-size: 0.75rem; }
+
+  .plan-card { padding: 2rem 1.25rem; }
+  .plan-card h3 { font-size: 1.25rem; }
+
+  .contact-item-value { font-size: 1rem; }
+  .contact-cta-text { font-size: 1.25rem; }
+
+  .footer { padding: 3rem 1.25rem 1.5rem; }
+  .footer-legal { gap: 1rem; }
+
+  .popup-overlay { padding: 0; }
+  .popup-content { padding: 1.5rem; border-radius: 0; max-height: 100vh; }
+  .popup-header h2 { font-size: 1.375rem; }
+  .plan-header { padding: 1rem 1.25rem; }
+  .plan-details { padding: 0 1.25rem 1.25rem; }
+}
+
+/* ─── RESPONSIVE: 360px ─── */
+@media (max-width: 360px) {
+  .loader-text { font-size: 1.25rem; letter-spacing: 0.15em; gap: 0.05em; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-actions .btn { justify-content: center; }
+  .nosotros-stats { grid-template-columns: 1fr; }
+  .popup-features ul { grid-template-columns: 1fr; }
+}
