@@ -336,7 +336,6 @@ body {
   .footer-main { grid-template-columns: 1fr; gap: 2rem; }
   .footer-bottom { flex-direction: column; text-align: center; }
 }
-
 /* ─── POPUP ─── */
 .popup-overlay {
   position: fixed; inset: 0;
