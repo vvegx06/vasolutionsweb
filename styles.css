@@ -961,6 +961,7 @@ ul { list-style: none; }
 
 /* Mobile */
 @media (max-width: 768px) {
+  body::before { background: url('/img/fondo2.png') center/cover; opacity: 0.08; }
   .hero { padding: 6rem 1.5rem 4rem; min-height: 100vh; }
   .hero__line { font-size: clamp(2rem, 10vw, 3rem); }
   .hero__desc { font-size: 1rem; max-width: 100%; }
