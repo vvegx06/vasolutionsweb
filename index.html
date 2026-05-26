@@ -1,181 +1,315 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VA Solutions | Consultoría Estratégica Digital</title>
+  <meta name="description" content="VA Solutions — Consultoría Estratégica Digital. Transformamos negocios a través de tecnología, creatividad y análisis.">
+  <title>VA Solutions — Consultoría Digital Estratégica</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+  <!-- Lottie -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" defer></script>
 </head>
 <body>
 
-  <!-- Loading Screen -->
-  <div class="loader">
-    <div class="loader-text">
-      <span>V</span><span>A</span>
-      <span class="loader-divider">/</span>
-      <span>S</span><span>O</span><span>L</span><span>U</span><span>T</span><span>I</span><span>O</span><span>N</span><span>S</span>
+  <!-- ─── LOADER ─── -->
+  <div class="loader" id="loader" role="status" aria-label="Cargando">
+    <div class="loader__brand" aria-hidden="true">
+      <svg viewBox="0 0 160 32" fill="none">
+        <text x="0" y="24" fill="var(--color-primary)" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="22" letter-spacing="-0.04">VA</text>
+        <text x="34" y="24" fill="var(--color-text)" font-family="'Outfit', sans-serif" font-weight="300" font-size="14" letter-spacing="0.15">SOLUTIONS</text>
+      </svg>
     </div>
-    <div class="loader-bar"></div>
+    <div class="loader__bar" aria-hidden="true">
+      <div class="loader__bar-fill"></div>
+    </div>
   </div>
 
-  <!-- Navbar -->
-  <nav class="navbar" id="navbar">
-    <div class="nav-container">
-      <a href="#" class="nav-logo">VA</a>
-      <div class="nav-links">
-        <a href="#nosotros" class="nav-link" data-i18n="nav.nosotros">Nosotros</a>
-        <a href="#servicios" class="nav-link" data-i18n="nav.servicios">Servicios</a>
-        <a href="#proyectos" class="nav-link" data-i18n="nav.proyectos">Proyectos</a>
-        <a href="#modalidades" class="nav-link" data-i18n="nav.modalidades">Modalidades</a>
-        <a href="#contacto" class="nav-link nav-cta" data-i18n="nav.contacto">Contacto</a>
+  <!-- ─── PROGRESS BAR ─── -->
+  <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+
+  <!-- ─── NAVBAR ─── -->
+  <nav class="navbar" role="navigation" aria-label="Navegación principal">
+    <div class="navbar__inner">
+      <a href="#" class="navbar__logo" aria-label="VA Solutions inicio">
+        <svg viewBox="0 0 160 32" fill="none" aria-hidden="true" class="navbar__logo-svg">
+          <text x="0" y="24" fill="var(--color-primary)" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="22" letter-spacing="-0.04">VA</text>
+          <text x="34" y="24" fill="var(--color-text)" font-family="'Outfit', sans-serif" font-weight="300" font-size="14" letter-spacing="0.15">SOLUTIONS</text>
+        </svg>
+      </a>
+      <div class="navbar__links">
+        <a href="#nosotros" class="navbar__link" data-i18n="nav.nosotros">Nosotros</a>
+        <a href="#servicios" class="navbar__link" data-i18n="nav.servicios">Servicios</a>
+        <a href="#proyectos" class="navbar__link" data-i18n="nav.proyectos">Proyectos</a>
+        <a href="#modalidades" class="navbar__link" data-i18n="nav.modalidades">Modalidades</a>
+        <a href="#contacto" class="navbar__link" data-i18n="nav.contacto">Contacto</a>
       </div>
-      <button class="lang-toggle" id="langToggle" aria-label="Cambiar idioma">EN</button>
+      <div class="navbar__actions">
+        <button class="lang-toggle" id="langToggle" aria-label="Cambiar idioma">ES</button>
+        <button class="navbar__hamburger" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
   </nav>
 
-  <!-- Hero -->
+  <!-- ─── HERO ─── -->
   <section class="hero" id="hero">
-    <div class="hero-overlay"></div>
-    <div class="hero-grid"></div>
-    <div class="hero-content">
-      <div class="hero-tag" data-i18n="hero.tag">Consultoría Estratégica Digital</div>
-      <h1 class="hero-title">
-        <span class="hero-line hero-line-1" data-i18n="hero.line1">Impulsamos tu</span>
-        <span class="hero-line hero-line-2" data-i18n="hero.line2">crecimiento</span>
-        <span class="hero-line hero-line-3 accent" data-i18n="hero.line3">digital</span>
-      </h1>
-          <p class="hero-desc" data-i18n="hero.desc" data-i18n-html="">Transformamos negocios a través de tecnología estratégica, creatividad innovadora y análisis profundo. Desde startups hasta empresas consolidadas. También trabajamos con <strong>Shopify</strong> como opción económica para tu tienda online.</p>
-      <div class="hero-actions">
-        <a href="#proyectos" class="btn btn-primary">
-          <span data-i18n="hero.btn1">Ver proyectos</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-        <a href="#contacto" class="btn btn-outline" data-i18n="hero.btn2">Conversemos</a>
+    <!-- Video background -->
+    <div class="hero__media" aria-hidden="true">
+      <!-- Reemplazar por video optimizado real del proyecto -->
+      <video class="hero__video" autoplay muted loop playsinline poster="/assets/hero-poster.webp" aria-hidden="true">
+        <source src="/assets/hero-growth-loop.mp4" type="video/mp4">
+      </video>
+      <div class="hero__overlay"></div>
+      <!-- Three.js canvas container -->
+      <div class="hero__canvas" id="heroCanvas" aria-hidden="true"></div>
+    </div>
+    <div class="hero__badges" aria-label="Servicios destacados">
+      <span class="badge badge--meta" style="--hue:160">Meta Ads</span>
+      <span class="badge badge--seo" style="--hue:280">SEO</span>
+      <span class="badge badge--content" style="--hue:200">Content</span>
+      <span class="badge badge--analytics" style="--hue:120">Analytics</span>
+      <span class="badge badge--automation" style="--hue:320">Automation</span>
+      <span class="badge badge--social" style="--hue:240">Social</span>
+    </div>
+    <div class="hero__content">
+      <div class="hero__text">
+        <h1 class="hero__title">
+          <span class="hero__line hero__line--1" data-i18n="hero.line1">Impulsamos tu</span>
+          <span class="hero__line hero__line--2 hero__line--accent" data-i18n="hero.line2">crecimiento</span>
+          <span class="hero__line hero__line--3" data-i18n="hero.line3">digital</span>
+        </h1>
+        <p class="hero__desc" data-i18n="hero.desc">Transformamos negocios a través de tecnología estratégica, creatividad innovadora y análisis profundo. Desde startups hasta empresas consolidadas. También trabajamos con <strong>Shopify</strong> como opción económica para tu tienda online.</p>
+        <div class="hero__actions">
+          <a href="#proyectos" class="btn btn--primary magnetic-btn" data-i18n="hero.btn1">Ver proyectos</a>
+          <a href="#contacto" class="btn btn--ghost magnetic-btn" data-i18n="hero.btn2">Conversemos</a>
+        </div>
+      </div>
+
+      <!-- Floating dashboard mockup -->
+      <div class="hero__dashboard" aria-hidden="true">
+        <div class="dashboard-mockup">
+          <div class="dashboard-mockup__header">
+            <span class="dashboard-mockup__dot"></span>
+            <span class="dashboard-mockup__dot"></span>
+            <span class="dashboard-mockup__dot"></span>
+          </div>
+          <div class="dashboard-mockup__body">
+            <div class="dashboard-mockup__row">
+              <div class="dashboard-mockup__label">ROI</div>
+              <div class="dashboard-mockup__bar" style="width:85%;--bar-color:var(--color-primary)"></div>
+              <span class="dashboard-mockup__value">+47%</span>
+            </div>
+            <div class="dashboard-mockup__row">
+              <div class="dashboard-mockup__label">CTR</div>
+              <div class="dashboard-mockup__bar" style="width:62%;--bar-color:var(--color-secondary)"></div>
+              <span class="dashboard-mockup__value">3.2%</span>
+            </div>
+            <div class="dashboard-mockup__row">
+              <div class="dashboard-mockup__label">Conv.</div>
+              <div class="dashboard-mockup__bar" style="width:73%;--bar-color:var(--color-cyan)"></div>
+              <span class="dashboard-mockup__value">+28%</span>
+            </div>
+            <div class="dashboard-mockup__row">
+              <div class="dashboard-mockup__label">CPA</div>
+              <div class="dashboard-mockup__bar" style="width:45%;--bar-color:var(--color-primary)"></div>
+              <span class="dashboard-mockup__value">-$12</span>
+            </div>
+          </div>
+          <!-- Mini sparkline -->
+          <svg class="dashboard-mockup__sparkline" viewBox="0 0 120 32" preserveAspectRatio="none">
+            <path d="M0,24 C20,24 30,8 40,14 C50,20 60,4 70,10 C80,16 90,2 100,8 C110,14 115,6 120,10" fill="none" stroke="var(--color-primary)" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
       </div>
     </div>
-      <div class="hero-metrics">
-      <div class="metric-item">
-        <span class="metric-num" data-count="1">0</span>
-        <span class="metric-label" data-i18n="metrics.proyecto">Proyecto</span>
+
+    <!-- Hero metrics -->
+    <div class="hero__metrics">
+      <div class="hero__metric">
+        <span class="hero__metric-value" data-count="2">0</span>
+        <span class="hero__metric-label" data-i18n="metrics.proyecto">Proyecto</span>
       </div>
-      <div class="metric-item">
-        <span class="metric-num" data-count="1">0</span>
-        <span class="metric-label" data-i18n="metrics.cliente">Cliente</span>
+      <div class="hero__metric">
+        <span class="hero__metric-value" data-count="2">0</span>
+        <span class="hero__metric-label" data-i18n="metrics.cliente">Cliente</span>
       </div>
-      <div class="metric-item">
-        <span class="metric-num" data-count="2026">0</span>
-        <span class="metric-label" data-i18n="metrics.desde">Desde</span>
+      <div class="hero__metric">
+        <span class="hero__metric-value" data-count="2026">0</span>
+        <span class="hero__metric-label" data-i18n="metrics.desde">Desde</span>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="hero__scroll" aria-hidden="true">
+      <span data-i18n="hero.scroll">Desplázate</span>
+      <svg width="16" height="24" viewBox="0 0 16 24" fill="none">
+        <rect x="1.5" y="1.5" width="13" height="21" rx="6.5" stroke="currentColor" stroke-width="2"/>
+        <circle cx="8" cy="8" r="2" fill="currentColor" class="scroll-dot"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ─── NOSOTROS ─── -->
+  <section class="about" id="nosotros">
+    <div class="about__inner">
+      <div class="about__content" data-reveal="fade-right" data-delay="0.1">
+        <h2 class="section-title about__title" data-i18n="nosotros.title">Quiénes<br>somos</h2>
+        <div class="about__text">
+          <p data-i18n="nosotros.desc1"><strong>VA Solutions</strong> nació en 2026 con una visión clara: democratizar la tecnología para empresas pequeñas y medianas. Somos una consultora integral que combina <strong>tecnología</strong>, <strong>creatividad</strong> y <strong>análisis estratégico</strong> para impulsar negocios.</p>
+          <p data-i18n="nosotros.desc2">Desde startups hasta empresas consolidadas, entendemos los desafíos únicos de cada etapa de crecimiento y construimos estrategias diseñadas para escalar.</p>
+        </div>
+        <blockquote class="about__quote" data-reveal="fade-up" data-delay="0.3">
+          <svg class="about__quote-icon" width="32" height="24" viewBox="0 0 32 24" fill="none" aria-hidden="true">
+            <path d="M10 24C4 24 0 20 0 14V0h10v14H4c0 4 2 6 6 6v4zm22-10V0H22v14h6c0 4-2 6-6 6v4c6 0 10-4 10-10z" fill="var(--color-primary)"/>
+          </svg>
+          <p data-i18n="nosotros.quote">"Diseñamos el futuro digital de tu empresa, creando valor medible en cada paso."</p>
+        </blockquote>
+      </div>
+
+      <!-- Stats + decorative team image -->
+      <div class="about__visual" data-reveal="fade-left" data-delay="0.2">
+        <!-- Reemplazar por imagen real del equipo -->
+        <div class="about__image-wrapper" aria-hidden="true">
+        </div>
+        <div class="about__stats">
+          <div class="about__stat" data-reveal="fade-up" data-delay="0.4">
+            <span class="about__stat-value" data-count="2">0</span>
+            <span class="about__stat-label" data-i18n="stats.proyecto">Proyecto entregado</span>
+          </div>
+          <div class="about__stat" data-reveal="fade-up" data-delay="0.5">
+            <span class="about__stat-value" data-count="2">0</span>
+            <span class="about__stat-label" data-i18n="stats.cliente">Clientes activos</span>
+          </div>
+          <div class="about__stat" data-reveal="fade-up" data-delay="0.6">
+            <span class="about__stat-value" data-count="100">0</span>
+            <span class="about__stat-label" data-i18n="stats.dedicacion">% Dedicación</span>
+          </div>
+          <div class="about__stat" data-reveal="fade-up" data-delay="0.7">
+            <span class="about__stat-value" data-count="24/7">0</span>
+            <span class="about__stat-label" data-i18n="stats.soporte">/Soporte</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Nosotros -->
-  <section id="nosotros" class="section nosotros">
-    <div class="section-stripe"></div>
-    <div class="section-content">
-      <span class="section-number">01</span>
-      <div class="nosotros-grid">
-        <div class="nosotros-text">
-          <h2 class="section-title" data-i18n="nosotros.title" data-i18n-html="">Quiénes<br>somos</h2>
-          <div class="section-line"></div>
-          <p class="nosotros-desc" data-i18n="nosotros.desc1" data-i18n-html="">
-            <strong>VA Solutions</strong> nació en 2026 con una visión clara: democratizar la tecnología para empresas pequeñas y medianas. Somos una consultora integral que combina <strong>tecnología</strong>, <strong>creatividad</strong> y <strong>análisis estratégico</strong> para impulsar negocios.
-          </p>
-          <p class="nosotros-desc" data-i18n="nosotros.desc2">
-            Desde startups hasta empresas consolidadas, entendemos los desafíos únicos de cada etapa de crecimiento y construimos estrategias diseñadas para escalar.
-          </p>
-          <blockquote class="nosotros-quote" data-i18n="nosotros.quote">
-            "Diseñamos el futuro digital de tu empresa, creando valor medible en cada paso."
-          </blockquote>
+  <!-- ─── SERVICIOS (Bento Grid) ─── -->
+  <section class="services" id="servicios">
+    <div class="services__header" data-reveal="fade-up">
+      <h2 class="section-title services__title" data-i18n="servicios.title">Servicios</h2>
+      <p class="section-desc services__desc" data-i18n="servicios.desc">Soluciones integrales diseñadas para impulsar tu presencia digital y optimizar tus procesos.</p>
+    </div>
+
+    <div class="services__grid">
+      <!-- Card 1 - Tall (Web) -->
+      <div class="service-card service-card--tall" style="--card-shape: polygon(0 0, 100% 0, 100% 100%, 0 85%)" onclick="openPopup('web')" data-reveal="fade-up" data-delay="0.1">
+        <div class="service-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+          </svg>
         </div>
-        <div class="nosotros-stats">
-          <div class="stat-card">
-            <span class="stat-value" data-count="1">0</span>
-            <span class="stat-label" data-i18n="stats.proyecto">Proyecto entregado</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-value" data-count="1">0</span>
-            <span class="stat-label" data-i18n="stats.cliente">Cliente activo</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-value" data-count="100">0</span>
-            <span class="stat-label" data-i18n="stats.dedicacion">% Dedicación</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-value" data-count="24">0</span>
-            <span class="stat-label" data-i18n="stats.soporte">/7 Soporte</span>
-          </div>
+        <h3 class="service-card__title" data-i18n="servicios.card1.title">Desarrollo Web</h3>
+        <p class="service-card__desc" data-i18n="servicios.card1.desc">Sitios web funcionales, seguros y escalables. Experiencias digitales que conectan con tu audiencia. También desarrollamos en <strong>Shopify</strong>, una opción económica y profesional para tu tienda online.</p>
+        <span class="service-card__action">▸</span>
+      </div>
+
+      <!-- Card 2 - Standard (Marketing) -->
+      <div class="service-card" style="--card-shape: polygon(10% 0, 100% 0, 100% 90%, 0 100%)" onclick="openPopup('marketing')" data-reveal="fade-up" data-delay="0.2">
+        <div class="service-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M23 6l-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/>
+          </svg>
         </div>
+        <h3 class="service-card__title" data-i18n="servicios.card2.title">Marketing Digital</h3>
+        <p class="service-card__desc" data-i18n="servicios.card2.desc">Estrategias de publicidad segmentada para maximizar tu ROI. Campañas optimizadas que alcanzan tu público ideal.</p>
+        <span class="service-card__action">▸</span>
+      </div>
+
+      <!-- Card 3 - Standard (Bots) -->
+      <div class="service-card" style="--card-shape: polygon(0 10%, 100% 0, 100% 100%, 10% 100%)" onclick="openPopup('bots')" data-reveal="fade-up" data-delay="0.3">
+        <div class="service-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 12h8M12 8v8"/>
+          </svg>
+        </div>
+        <h3 class="service-card__title" data-i18n="servicios.card3.title">Automatización & Bots</h3>
+        <p class="service-card__desc" data-i18n="servicios.card3.desc">Mensajería inteligente para WhatsApp con atención 24/7. Automatización que convierte mientras duermes.</p>
+        <span class="service-card__action">▸</span>
+      </div>
+
+      <!-- Card 4 - Wide (Redes) -->
+      <div class="service-card service-card--wide" style="--card-shape: polygon(0 0, 100% 10%, 100% 100%, 0 90%)" onclick="openPopup('redes')" data-reveal="fade-up" data-delay="0.4">
+        <div class="service-card__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h4"/>
+          </svg>
+        </div>
+        <h3 class="service-card__title" data-i18n="servicios.card4.title">Gestión de Redes</h3>
+        <p class="service-card__desc" data-i18n="servicios.card4.desc">Contenido estratégico para fortalecer tu marca. Community management que construye comunidad y genera engagement.</p>
+        <span class="service-card__action">▸</span>
       </div>
     </div>
   </section>
 
-  <!-- Servicios -->
-  <section id="servicios" class="section servicios">
-    <div class="section-content">
-      <span class="section-number">02</span>
-      <h2 class="section-title" data-i18n="servicios.title">Servicios</h2>
-      <div class="section-line"></div>
-      <p class="section-desc" data-i18n="servicios.desc">Soluciones integrales diseñadas para impulsar tu presencia digital y optimizar tus procesos.</p>
-      <div class="services-grid">
-        <div class="service-card" onclick="openPopup('web')">
-          <div class="service-num">01</div>
-          <div class="service-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-          </div>
-          <h3 data-i18n="servicios.card1.title">Desarrollo Web</h3>
-          <p data-i18n="servicios.card1.desc" data-i18n-html="">Sitios web funcionales, seguros y escalables. Experiencias digitales que conectan con tu audiencia. También desarrollamos en <strong>Shopify</strong>, una opción económica y profesional para tu tienda online.</p>
-          <span class="service-arrow">→</span>
-        </div>
-        <div class="service-card" onclick="openPopup('marketing')">
-          <div class="service-num">02</div>
-          <div class="service-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M23 6l-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/></svg>
-          </div>
-          <h3 data-i18n="servicios.card2.title">Marketing Digital</h3>
-          <p data-i18n="servicios.card2.desc">Estrategias de publicidad segmentada para maximizar tu ROI. Campañas optimizadas que alcanzan tu público ideal.</p>
-          <span class="service-arrow">→</span>
-        </div>
-        <div class="service-card" onclick="openPopup('bots')">
-          <div class="service-num">03</div>
-          <div class="service-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 12h8M12 8v8"/></svg>
-          </div>
-          <h3 data-i18n="servicios.card3.title">Automatización & Bots</h3>
-          <p data-i18n="servicios.card3.desc">Mensajería inteligente para WhatsApp con atención 24/7. Automatización que convierte mientras duermes.</p>
-          <span class="service-arrow">→</span>
-        </div>
-        <div class="service-card" onclick="openPopup('redes')">
-          <div class="service-num">04</div>
-          <div class="service-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h4"/></svg>
-          </div>
-          <h3 data-i18n="servicios.card4.title">Gestión de Redes</h3>
-          <p data-i18n="servicios.card4.desc">Contenido estratégico para fortalecer tu marca. Community management que construye comunidad y genera engagement.</p>
-          <span class="service-arrow">→</span>
-        </div>
-      </div>
-    </div>
-  </section>
+  
+  <!-- ─── PROYECTOS ─── -->
+  <section class="projects" id="proyectos">
+    <div class="projects__inner">
+      <div class="projects__content" data-reveal="fade-right" data-delay="0.1">
+        <h2 class="section-title projects__title" data-i18n="proyectos.title">Proyectos<br>Realizados</h2>
+        <p class="section-desc projects__desc" data-i18n="proyectos.desc">Estos son nuestros proyectos realizados, cada uno con la misma dedicación y calidad que nos define.</p>
 
-  <!-- Proyectos Realizados -->
-  <section id="proyectos" class="section proyectos">
-    <div class="section-content">
-      <span class="section-number">03</span>
-      <h2 class="section-title" data-i18n="proyectos.title" data-i18n-html="">Proyectos<br>Realizados</h2>
-      <div class="section-line"></div>
-      <p class="section-desc" data-i18n="proyectos.desc">Nuestro primer proyecto realizado. Cada cliente recibe la misma dedicación y calidad.</p>
-      <div class="proyectos-grid">
-        <div class="proyecto-card" onclick="window.open('https://neighborhoodcr.com/', '_blank')">
-          <div class="proyecto-img" style="background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);">
-            <div class="proyecto-overlay"></div>
-            <div class="proyecto-tag" data-i18n="proyectos.tag">Shopify · Tienda Online</div>
-            <div class="proyecto-info">
-              <h3 data-i18n="proyectos.name">Neighborhood CR</h3>
-              <p data-i18n="proyectos.detail">Tienda de ropa online desarrollada en Shopify. Catálogo completo, pasarela de pago y diseño responsivo.</p>
-              <span class="proyecto-link" data-i18n="proyectos.link">Visitar sitio →</span>
+      </div>
+
+      <div class="projects__cards">
+        <div class="projects__card" data-reveal="fade-left" data-delay="0.3">
+          <div class="projects__card-bg" aria-hidden="true">
+            <img src="img/Neigborhood.png" alt="Captura de pantalla del proyecto Neighborhood CR" class="projects__card-img" loading="lazy" decoding="async">
+          </div>
+          <div class="projects__card-content">
+            <span class="projects__card-tag" data-i18n="proyectos.tag">Shopify · Tienda Online</span>
+            <h3 class="projects__card-name" data-i18n="proyectos.name">Neighborhood</h3>
+            <p class="projects__card-detail" data-i18n="proyectos.detail">Tienda online desarrollada en Shopify con catálogo de productos, pasarela de pago y diseño responsivo.</p>
+            <a href="https://neighborhoodcr.com/" class="projects__card-link" data-i18n="proyectos.link" target="_blank" rel="noopener">Visitar sitio →</a>
+          </div>
+          <div class="projects__card-rating">
+            <span class="projects__card-rating-label" data-i18n="proyectos.rating">Valoración</span>
+            <div class="projects__card-stars">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="projects__card" data-reveal="fade-left" data-delay="0.4">
+          <div class="projects__card-bg" aria-hidden="true">
+            <img src="img/Archv.png" alt="Captura de pantalla del proyecto Archv" class="projects__card-img" loading="lazy" decoding="async">
+          </div>
+          <div class="projects__card-content">
+            <span class="projects__card-tag" data-i18n="proyectos2.tag">Shopify · Tienda Online</span>
+            <h3 class="projects__card-name" data-i18n="proyectos2.name">Archv</h3>
+            <p class="projects__card-detail" data-i18n="proyectos2.detail">Tienda online desarrollada en Shopify con catálogo de productos, pasarela de pago y diseño responsivo.</p>
+            <a href="https://archvcr.myshopify.com/password?pb=0" class="projects__card-link" data-i18n="proyectos2.link" target="_blank" rel="noopener">Visitar sitio →</a>
+          </div>
+          <div class="projects__card-rating">
+            <span class="projects__card-rating-label" data-i18n="proyectos2.rating">Valoración</span>
+            <div class="projects__card-stars">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
           </div>
         </div>
@@ -183,144 +317,182 @@
     </div>
   </section>
 
-  <!-- Modalidades -->
-  <section id="modalidades" class="section modalidades">
-    <div class="section-content">
-      <span class="section-number">04</span>
-      <h2 class="section-title" data-i18n="modalidades.title">Modalidades</h2>
-      <div class="section-line"></div>
-      <p class="section-desc" data-i18n="modalidades.desc">Elige el modelo de trabajo que mejor se adapte a tus necesidades.</p>
-      <div class="plans-grid">
-        <div class="plan-card" onclick="openPopup('contratos')">
-          <div class="plan-card-bg"></div>
-          <div class="plan-content">
-            <span class="plan-label" data-i18n="plan1.label">Mensual</span>
-            <h3 data-i18n="plan1.title" data-i18n-html="">Contratos<br>Mensuales</h3>
-            <p data-i18n="plan1.desc">Crecimiento continuo y sostenible con soporte prioritario.</p>
-            <ul>
-              <li data-i18n="plan1.feature1">Soporte prioritario</li>
-              <li data-i18n="plan1.feature2">Optimización continua</li>
-              <li data-i18n="plan1.feature3">Reportes mensuales</li>
-              <li data-i18n="plan1.feature4">Estrategia personalizada</li>
-            </ul>
-            <span class="plan-cta" data-i18n="plan1.cta">Ver planes →</span>
-          </div>
-        </div>
-        <div class="plan-card featured" onclick="openPopup('puntuales')">
-          <div class="plan-card-bg"></div>
-          <div class="plan-content">
-            <span class="plan-label" data-i18n="plan2.label">Puntual</span>
-            <h3 data-i18n="plan2.title" data-i18n-html="">Servicios<br>Puntuales</h3>
-            <p data-i18n="plan2.desc">Soluciones específicas con entrega garantizada y documentación.</p>
-            <ul>
-              <li data-i18n="plan2.feature1">Proyecto definido</li>
-              <li data-i18n="plan2.feature2">Entrega garantizada</li>
-              <li data-i18n="plan2.feature3">Documentación completa</li>
-              <li data-i18n="plan2.feature4">Soporte post-proyecto</li>
-            </ul>
-            <span class="plan-cta" data-i18n="plan2.cta">Ver servicios →</span>
-          </div>
-        </div>
-        <div class="plan-card" onclick="openPopup('personalizados')">
-          <div class="plan-card-bg"></div>
-          <div class="plan-content">
-            <span class="plan-label" data-i18n="plan3.label">A medida</span>
-            <h3 data-i18n="plan3.title" data-i18n-html="">Planes<br>Personalizados</h3>
-            <p data-i18n="plan3.desc">Hoja de ruta diseñada exclusivamente para tu negocio.</p>
-            <ul>
-              <li data-i18n="plan3.feature1">Análisis completo</li>
-              <li data-i18n="plan3.feature2">Estrategia custom</li>
-              <li data-i18n="plan3.feature3">Implementación guiada</li>
-              <li data-i18n="plan3.feature4">Seguimiento trimestral</li>
-            </ul>
-            <span class="plan-cta" data-i18n="plan3.cta">Consultar →</span>
-          </div>
-        </div>
+  <!-- ─── MODALIDADES (Anti-grid) ─── -->
+  <section class="plans" id="modalidades">
+    <div class="plans__header" data-reveal="fade-up">
+      <h2 class="section-title plans__title" data-i18n="modalidades.title">Modalidades</h2>
+      <p class="section-desc plans__desc" data-i18n="modalidades.desc">Elige el modelo de trabajo que mejor se adapte a tus necesidades.</p>
+    </div>
+
+    <div class="plans__grid">
+      <!-- Plan 1 -->
+      <div class="plan-card" style="--card-clip: polygon(5% 0, 100% 0, 100% 95%, 0 100%)" onclick="openPopup('contratos')" data-reveal="fade-up" data-delay="0.1">
+        <span class="plan-card__label" data-i18n="plan1.label">Mensual</span>
+        <h3 class="plan-card__title" data-i18n="plan1.title">Contratos<br>Mensuales</h3>
+        <p class="plan-card__desc" data-i18n="plan1.desc">Crecimiento continuo y sostenible con soporte prioritario.</p>
+        <ul class="plan-card__features">
+          <li data-i18n="plan1.feature1">Soporte prioritario</li>
+          <li data-i18n="plan1.feature2">Optimización continua</li>
+          <li data-i18n="plan1.feature3">Reportes mensuales</li>
+          <li data-i18n="plan1.feature4">Estrategia personalizada</li>
+        </ul>
+        <a href="#" class="plan-card__cta" data-i18n="plan1.cta">Ver planes →</a>
+      </div>
+
+      <!-- Plan 2 - Featured -->
+      <div class="plan-card plan-card--featured" style="--card-clip: polygon(0 0, 100% 5%, 100% 100%, 5% 100%)" onclick="openPopup('puntuales')" data-reveal="fade-up" data-delay="0.2">
+        <span class="plan-card__label plan-card__label--featured" data-i18n="plan2.label">Puntual</span>
+        <h3 class="plan-card__title" data-i18n="plan2.title">Servicios<br>Puntuales</h3>
+        <p class="plan-card__desc" data-i18n="plan2.desc">Soluciones específicas con entrega garantizada y documentación.</p>
+        <ul class="plan-card__features">
+          <li data-i18n="plan2.feature1">Proyecto definido</li>
+          <li data-i18n="plan2.feature2">Entrega garantizada</li>
+          <li data-i18n="plan2.feature3">Documentación completa</li>
+          <li data-i18n="plan2.feature4">Soporte post-proyecto</li>
+        </ul>
+        <a href="#" class="plan-card__cta" data-i18n="plan2.cta">Ver servicios →</a>
+      </div>
+
+      <!-- Plan 3 -->
+      <div class="plan-card" style="--card-clip: polygon(0 5%, 100% 0, 95% 100%, 0 100%)" onclick="openPopup('personalizados')" data-reveal="fade-up" data-delay="0.3">
+        <span class="plan-card__label" data-i18n="plan3.label">A medida</span>
+        <h3 class="plan-card__title" data-i18n="plan3.title">Planes<br>Personalizados</h3>
+        <p class="plan-card__desc" data-i18n="plan3.desc">Hoja de ruta diseñada exclusivamente para tu negocio.</p>
+        <ul class="plan-card__features">
+          <li data-i18n="plan3.feature1">Análisis completo</li>
+          <li data-i18n="plan3.feature2">Estrategia custom</li>
+          <li data-i18n="plan3.feature3">Implementación guiada</li>
+          <li data-i18n="plan3.feature4">Seguimiento trimestral</li>
+        </ul>
+        <a href="#" class="plan-card__cta" data-i18n="plan3.cta">Consultar →</a>
       </div>
     </div>
   </section>
-  <!-- Contacto -->
-  <section id="contacto" class="section contacto">
-    <div class="section-content">
-      <span class="section-number">05</span>
-      <h2 class="section-title" data-i18n="contacto.title">Contacto</h2>
-      <div class="section-line"></div>
-      <p class="section-desc" data-i18n="contacto.desc">¿Listo para transformar tu negocio? Escríbenos y encontremos la mejor estrategia juntos.</p>
-      <div class="contact-grid">
-        <div class="contact-info">
-          <div class="contact-item">
-            <span class="contact-item-label" data-i18n="contacto.wa">WhatsApp</span>
-            <a href="https://wa.me/50683886445" class="contact-item-value">+506 8388-6445</a>
-          </div>
-          <div class="contact-item">
-            <span class="contact-item-label" data-i18n="contacto.email">Email</span>
-            <a href="mailto:vasolutionscr@gmail.com" class="contact-item-value">vasolutionscr@gmail.com</a>
-          </div>
-          <div class="contact-item">
-            <span class="contact-item-label" data-i18n="contacto.ig">Instagram</span>
-            <a href="https://www.instagram.com/vasolutionscr" target="_blank" class="contact-item-value">@vasolutionscr</a>
-          </div>
-          <div class="contact-item">
-            <span class="contact-item-label" data-i18n="contacto.ubicacion">Ubicación</span>
-            <span class="contact-item-value">Costa Rica</span>
-          </div>
-        </div>
-        <div class="contact-cta">
-          <p class="contact-cta-text" data-i18n="contacto.cta">Trabajemos juntos</p>
-          <a href="https://wa.me/50683886445" class="btn btn-primary btn-lg">
-            <span data-i18n="contacto.btn">Enviar mensaje</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+
+  <!-- ─── CONTACTO ─── -->
+  <section class="contact" id="contacto">
+    <div class="contact__inner">
+      <div class="contact__content" data-reveal="fade-right" data-delay="0.1">
+        <h2 class="section-title contact__title" data-i18n="contacto.title">Contacto</h2>
+        <p class="section-desc contact__desc" data-i18n="contacto.desc">¿Listo para transformar tu negocio? Escríbenos y encontremos la mejor estrategia juntos.</p>
+
+        <div class="contact__channels">
+          <a href="https://wa.me/50683886445" class="contact__channel" target="_blank" rel="noopener">
+            <span class="contact__channel-tag" data-i18n="contacto.wa">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16" style="display:block"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+            </span>
+            <span class="contact__channel-value">+506 8388 6445</span>
           </a>
+          <a href="mailto:vasolutioscr@gmail.com" class="contact__channel" target="_blank" rel="noopener">
+            <span class="contact__channel-tag" data-i18n="contacto.email">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16" style="display:block"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </span>
+            <span class="contact__channel-value">vasolutioscr@gmail.com</span>
+          </a>
+          <a href="https://instagram.com/vasolutionscr" class="contact__channel" target="_blank" rel="noopener">
+            <span class="contact__channel-tag" data-i18n="contacto.ig">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16" style="display:block"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+            </span>
+            <span class="contact__channel-value">@vasolutionscr</span>
+          </a>
+          <div class="contact__channel">
+            <span class="contact__channel-tag" data-i18n="contacto.ubicacion">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16" style="display:block"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </span>
+            <span class="contact__channel-value">Costa Rica</span>
+          </div>
         </div>
+
+        <a href="https://wa.me/50683886445" class="btn btn--primary contact__cta magnetic-btn" target="_blank" rel="noopener" data-i18n="contacto.cta">Trabajemos juntos</a>
       </div>
     </div>
   </section>
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-content">
-      <div class="footer-main">
-        <div class="footer-brand">
-          <span class="footer-logo">VA Solutions</span>
-          <p data-i18n="footer.desc">Consultoría estratégica digital para negocios que buscan escalar. Tecnología, creatividad y estrategia en un solo lugar.</p>
-        </div>
-        <div class="footer-nav">
-          <h4 data-i18n="footer.nav">Navegación</h4>
-          <a href="#nosotros" data-i18n="nav.nosotros">Nosotros</a>
-          <a href="#servicios" data-i18n="nav.servicios">Servicios</a>
-          <a href="#proyectos" data-i18n="nav.proyectos">Proyectos</a>
-          <a href="#modalidades" data-i18n="nav.modalidades">Modalidades</a>
-        </div>
-        <div class="footer-nav">
-          <h4 data-i18n="footer.contacto">Contacto</h4>
-          <a href="https://wa.me/50683886445">WhatsApp</a>
-          <a href="mailto:vasolutionscr@gmail.com">Email</a>
-          <a href="https://www.instagram.com/vasolutionscr" target="_blank">Instagram</a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p data-i18n="footer.rights" data-i18n-html="">&copy; 2026 VA Solutions. Todos los derechos reservados.</p>
-        <div class="footer-legal">
-        </div>
-      </div>
-    </div>
-  </footer>
-  <!-- Popup Modal -->
-  <div class="popup-overlay" id="popupOverlay">
-    <div class="popup-backdrop" onclick="closePopup()"></div>
-    <div class="popup-content" onclick="event.stopPropagation()">
-      <button class="popup-close" onclick="closePopup()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
-      </button>
-      <div class="popup-header">
-        <div class="popup-icon" id="popupIcon"></div>
-        <h2 id="popupTitle"></h2>
-      </div>
-      <div class="popup-body" id="popupBody"></div>
-      <div class="popup-features" id="popupFeatures"></div>
-      <a href="https://wa.me/50683886445" class="btn btn-primary popup-cta" id="popupCta" target="_blank" data-i18n="popup.cta">Solicitar información</a>
+
+  <!-- ─── MARQUEE (Service badges) ─── -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span class="marquee__item">Desarrollo Web</span>
+      <span class="marquee__item">Marketing Digital</span>
+      <span class="marquee__item">Automatización & Bots</span>
+      <span class="marquee__item">Gestión de Redes</span>
+      <span class="marquee__item">Branding</span>
+      <span class="marquee__item">Consultoría</span>
+      <span class="marquee__item">Funnels</span>
+      <span class="marquee__item">Growth</span>
+      <!-- Duplicate for seamless loop -->
+      <span class="marquee__item">Desarrollo Web</span>
+      <span class="marquee__item">Marketing Digital</span>
+      <span class="marquee__item">Automatización & Bots</span>
+      <span class="marquee__item">Gestión de Redes</span>
+      <span class="marquee__item">Branding</span>
+      <span class="marquee__item">Consultoría</span>
+      <span class="marquee__item">Funnels</span>
+      <span class="marquee__item">Growth</span>
     </div>
   </div>
 
+  <!-- ─── GROWTH LINE ─── -->
+  <svg class="growth-line" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true">
+    <path class="growth-line__path" d="M0,50 C200,50 300,10 400,30 C500,50 600,5 700,25 C800,45 900,10 1000,20 C1100,30 1150,15 1200,20" fill="none" stroke="var(--color-primary)" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+
+  <!-- ─── FOOTER ─── -->
+  <footer class="footer" id="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <svg viewBox="0 0 160 32" fill="none" aria-hidden="true" class="footer__logo">
+          <text x="0" y="24" fill="var(--color-primary)" font-family="'Space Grotesk', sans-serif" font-weight="800" font-size="22" letter-spacing="-0.04">VA</text>
+          <text x="34" y="24" fill="var(--color-text)" font-family="'Outfit', sans-serif" font-weight="300" font-size="14" letter-spacing="0.15">SOLUTIONS</text>
+        </svg>
+        <p class="footer__desc" data-i18n="footer.desc">Consultoría estratégica digital para negocios que buscan escalar. Tecnología, creatividad y estrategia en un solo lugar.</p>
+      </div>
+
+      <div class="footer__nav">
+        <h4 class="footer__heading">Navegación</h4>
+        <a href="#nosotros" class="footer__link" data-i18n="nav.nosotros">Nosotros</a>
+        <a href="#servicios" class="footer__link" data-i18n="nav.servicios">Servicios</a>
+        <a href="#proyectos" class="footer__link" data-i18n="nav.proyectos">Proyectos</a>
+        <a href="#modalidades" class="footer__link" data-i18n="nav.modalidades">Modalidades</a>
+        <a href="#contacto" class="footer__link" data-i18n="nav.contacto">Contacto</a>
+      </div>
+
+      <div class="footer__social">
+        <h4 class="footer__heading">Contacto</h4>
+        <a href="https://wa.me/50683886445" class="footer__social-link" target="_blank" rel="noopener" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+        </a>
+        <a href="mailto:info@vasolutions.cr" class="footer__social-link" target="_blank" rel="noopener" aria-label="Email">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </a>
+        <a href="https://instagram.com/vasolutionscr" class="footer__social-link" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p data-i18n="footer.rights">&copy; 2026 VA Solutions. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- ─── POPUP ─── -->
+  <div class="popup" id="popupOverlay" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+    <div class="popup__backdrop" onclick="closePopup()"></div>
+    <div class="popup__content" onclick="event.stopPropagation()">
+      <button class="popup__close" onclick="closePopup()" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="popup__header">
+        <div class="popup__icon" id="popupIcon"></div>
+        <h2 id="popupTitle"></h2>
+      </div>
+      <div class="popup__body" id="popupBody"></div>
+      <div class="popup__features" id="popupFeatures"></div>
+      <a href="https://wa.me/50683886445" class="btn btn--primary popup__cta" id="popupCta" target="_blank" data-i18n="popup.cta">Solicitar información</a>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
   <script src="script.js"></script>
 </body>
 </html>

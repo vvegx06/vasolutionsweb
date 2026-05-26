@@ -1,11 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
   initLoader();
   initNavbar();
-  initSections();
   initCounters();
   initProgressBar();
   initLang();
   applyLang();
+  initScrollReveal();
+  initGSAP();
+  initTypingEffect();
+  initMagneticButtons();
+  initParallax();
+
+  if (typeof THREE !== 'undefined') {
+    initHeroThree();
+  }
+
+  if (typeof lottie !== 'undefined') {
+    initLottieAnimations();
+  }
 });
 
 /* ─── LOADER ─── */
@@ -65,7 +77,7 @@ const translations = {
     'nosotros.desc2': 'Desde startups hasta empresas consolidadas, entendemos los desafíos únicos de cada etapa de crecimiento y construimos estrategias diseñadas para escalar.',
     'nosotros.quote': '"Diseñamos el futuro digital de tu empresa, creando valor medible en cada paso."',
     'stats.proyecto': 'Proyecto entregado',
-    'stats.cliente': 'Cliente activo',
+    'stats.cliente': 'Clientes activos',
     'stats.dedicacion': '% Dedicación',
     'stats.soporte': '/7 Soporte',
     'servicios.title': 'Servicios',
@@ -81,9 +93,15 @@ const translations = {
     'proyectos.title': 'Proyectos<br>Realizados',
     'proyectos.desc': 'Nuestro primer proyecto realizado. Cada cliente recibe la misma dedicación y calidad.',
     'proyectos.tag': 'Shopify · Tienda Online',
-    'proyectos.name': 'Neighborhood CR',
-    'proyectos.detail': 'Tienda de ropa online desarrollada en Shopify. Catálogo completo, pasarela de pago y diseño responsivo.',
+    'proyectos.name': 'Neighborhood',
+    'proyectos.detail': 'Tienda online desarrollada en Shopify con catálogo de productos, pasarela de pago y diseño responsivo.',
     'proyectos.link': 'Visitar sitio →',
+    'proyectos.rating': 'Valoración',
+    'proyectos2.tag': 'Shopify · Tienda Online',
+    'proyectos2.name': 'Archv',
+    'proyectos2.detail': 'Tienda online desarrollada en Shopify con catálogo de productos, pasarela de pago y diseño responsivo.',
+    'proyectos2.link': 'Visitar sitio →',
+    'proyectos2.rating': 'Valoración',
     'modalidades.title': 'Modalidades',
     'modalidades.desc': 'Elige el modelo de trabajo que mejor se adapte a tus necesidades.',
     'plan1.label': 'Mensual',
@@ -154,7 +172,7 @@ const translations = {
     'nosotros.desc2': 'From startups to established companies, we understand the unique challenges of each growth stage and build strategies designed to scale.',
     'nosotros.quote': '"We design your company\'s digital future, creating measurable value at every step."',
     'stats.proyecto': 'Project delivered',
-    'stats.cliente': 'Active client',
+    'stats.cliente': 'Active clients',
     'stats.dedicacion': '% Dedication',
     'stats.soporte': '/7 Support',
     'servicios.title': 'Services',
@@ -170,9 +188,15 @@ const translations = {
     'proyectos.title': 'Our<br>Projects',
     'proyectos.desc': 'Our first completed project. Every client receives the same dedication and quality.',
     'proyectos.tag': 'Shopify · Online Store',
-    'proyectos.name': 'Neighborhood CR',
-    'proyectos.detail': 'Online clothing store built with Shopify. Complete catalog, payment gateway, and responsive design.',
+    'proyectos.name': 'Neighborhood',
+    'proyectos.detail': 'Online store built with Shopify featuring product catalog, payment gateway, and responsive design.',
     'proyectos.link': 'Visit site →',
+    'proyectos.rating': 'Rating',
+    'proyectos2.tag': 'Shopify · Online Store',
+    'proyectos2.name': 'Archv',
+    'proyectos2.detail': 'Online store built with Shopify featuring product catalog, payment gateway, and responsive design.',
+    'proyectos2.link': 'Visit site →',
+    'proyectos2.rating': 'Rating',
     'modalidades.title': 'Work Plans',
     'modalidades.desc': 'Choose the work model that best fits your needs.',
     'plan1.label': 'Monthly',
@@ -188,7 +212,7 @@ const translations = {
     'plan2.desc': 'Specific solutions with guaranteed delivery and documentation.',
     'plan2.feature1': 'Defined project',
     'plan2.feature2': 'Guaranteed delivery',
-    'plan2.feature3': 'Full documentation',
+    'plan2.feature3': 'Complete documentation',
     'plan2.feature4': 'Post-project support',
     'plan2.cta': 'View services →',
     'plan3.label': 'Custom',
@@ -205,15 +229,15 @@ const translations = {
     'contacto.email': 'Email',
     'contacto.ig': 'Instagram',
     'contacto.ubicacion': 'Location',
-    'contacto.cta': "Let's work together",
+    'contacto.cta': 'Let\'s work together',
     'contacto.btn': 'Send message',
-    'footer.desc': 'Digital strategic consulting for businesses looking to scale. Technology, creativity, and strategy in one place.',
+    'footer.desc': 'Strategic digital consultancy for businesses looking to scale. Technology, creativity, and strategy in one place.',
     'footer.nav': 'Navigation',
     'footer.contacto': 'Contact',
     'footer.rights': '&copy; 2026 VA Solutions. All rights reserved.',
     'footer.privacidad': 'Privacy',
     'footer.terminos': 'Terms',
-    'popup.cta': 'Request info',
+    'popup.cta': 'Request information',
     'popup.includes': 'Includes:',
     'popup.duration': 'Duration:',
     'popup.cancel': 'Cancellation:',
@@ -224,110 +248,424 @@ const translations = {
 };
 
 function t(key) {
-  return translations[currentLang]?.[key] ?? translations.es[key] ?? '';
-}
-
-function initLang() {
-  const btn = document.getElementById('langToggle');
-  if (!btn) return;
-  btn.addEventListener('click', () => {
-    currentLang = currentLang === 'es' ? 'en' : 'es';
-    btn.textContent = currentLang === 'es' ? 'EN' : 'ES';
-    applyLang();
-  });
+  return translations[currentLang]?.[key] || translations['es'][key] || key;
 }
 
 function applyLang() {
   document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.dataset.i18n;
-    const txt = translations[currentLang]?.[key];
-    if (txt === undefined) return;
-    if (el.dataset.i18nHtml !== undefined) {
-      el.innerHTML = txt;
-    } else {
-      el.textContent = txt;
-    }
+    const key = el.getAttribute('data-i18n');
+    el.innerHTML = t(key);
+  });
+
+  document.documentElement.lang = currentLang;
+  const toggle = document.getElementById('langToggle');
+  if (toggle) toggle.textContent = currentLang === 'es' ? 'EN' : 'ES';
+}
+
+function initLang() {
+  const toggle = document.getElementById('langToggle');
+  if (!toggle) return;
+
+  toggle.addEventListener('click', () => {
+    currentLang = currentLang === 'es' ? 'en' : 'es';
+    applyLang();
   });
 }
 
-/* ─── SECTION SCROLL ANIMATIONS ─── */
-function initSections() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.section').forEach(s => observer.observe(s));
-}
-
-/* ─── COUNTER ANIMATION ─── */
+/* ─── COUNTERS ─── */
 function initCounters() {
   const counters = document.querySelectorAll('[data-count]');
+  if (!counters.length) return;
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const el = entry.target;
-        const target = parseInt(el.dataset.count);
-        animateCounter(el, target);
-        observer.unobserve(el);
+  const isRaf = typeof requestAnimationFrame !== 'undefined';
+  const animateCounter = (el) => {
+    const target = parseInt(el.getAttribute('data-count'), 10);
+    if (isNaN(target)) return;
+    const duration = 1200;
+    const start = performance.now();
+
+    const step = (now) => {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      const current = Math.floor(ease * target);
+      el.textContent = current.toLocaleString();
+
+      if (progress < 1) {
+        if (isRaf) {
+          requestAnimationFrame(step);
+        } else {
+          setTimeout(() => step(performance.now()), 16);
+        }
+      } else {
+        el.textContent = target.toLocaleString();
       }
-    });
-  }, { threshold: 0.5 });
+    };
 
-  counters.forEach(c => observer.observe(c));
-}
-
-function animateCounter(el, target) {
-  const duration = 1500;
-  const steps = 30;
-  const stepTime = duration / steps;
-  let current = 0;
-  const increment = target / steps;
-
-  const tick = () => {
-    current += increment;
-    if (current >= target) {
-      el.textContent = target + (target === 24 || target === 100 ? '+' : '');
-      return;
+    if (isRaf) {
+      requestAnimationFrame(step);
+    } else {
+      setTimeout(() => step(performance.now()), 16);
     }
-    el.textContent = Math.floor(current);
-    setTimeout(tick, stepTime);
   };
-  tick();
+
+  if (typeof IntersectionObserver !== 'undefined') {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    counters.forEach(c => observer.observe(c));
+  } else {
+    counters.forEach(c => animateCounter(c));
+  }
 }
 
-/* ─── SCROLL PROGRESS BAR ─── */
+/* ─── PROGRESS BAR ─── */
 function initProgressBar() {
-  const bar = document.createElement('div');
-  bar.className = 'progress-bar';
-  document.body.appendChild(bar);
+  const bar = document.getElementById('progressBar');
+  if (!bar) return;
+
+  let ticking = false;
+  const update = () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const percent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    bar.style.width = percent + '%';
+    ticking = false;
+  };
 
   window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY;
-    const winH = window.innerHeight;
-    const docH = document.documentElement.scrollHeight;
-    const pct = scrollY / (docH - winH);
-    bar.style.width = `${pct * 100}%`;
+    if (!ticking) {
+      requestAnimationFrame(update);
+      ticking = true;
+    }
   }, { passive: true });
 }
 
-/* ─── SMOOTH SCROLL ─── */
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    const href = this.getAttribute('href');
-    if (href === '#') return;
-    e.preventDefault();
-    const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+/* ─── SCROLL REVEAL (GSAP) ─── */
+function initScrollReveal() {
+  const useGSAP = typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined';
+  if (!useGSAP) {
+    document.querySelectorAll('[data-reveal]').forEach(el => {
+      el.style.opacity = '1';
+    });
+    return;
+  }
+
+  const elements = document.querySelectorAll('[data-reveal]');
+  if (!elements.length) return;
+
+  elements.forEach(el => {
+    const direction = el.getAttribute('data-reveal') || 'fade-up';
+    const delay = parseFloat(el.getAttribute('data-delay')) || 0;
+
+    let vars = {};
+    switch (direction) {
+      case 'fade-up':
+        vars = { y: 40, opacity: 0 };
+        break;
+      case 'fade-down':
+        vars = { y: -40, opacity: 0 };
+        break;
+      case 'fade-right':
+        vars = { x: -40, opacity: 0 };
+        break;
+      case 'fade-left':
+        vars = { x: 40, opacity: 0 };
+        break;
+      case 'scale-in':
+        vars = { scale: 0.9, opacity: 0 };
+        break;
+      case 'blur-in':
+        vars = { filter: 'blur(8px)', opacity: 0 };
+        break;
+      default:
+        vars = { y: 40, opacity: 0 };
     }
+
+    gsap.fromTo(el, vars, {
+      y: 0,
+      x: 0,
+      scale: 1,
+      filter: 'blur(0)',
+      opacity: 1,
+      duration: 1,
+      delay: delay,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 88%',
+        toggleActions: 'play none none none'
+      }
+    });
   });
-});
+}
+
+/* ─── GSAP ENTRANCE ANIMATIONS ─── */
+function initGSAP() {
+  const useGSAP = typeof gsap !== 'undefined';
+  if (!useGSAP) return;
+
+  /* Hero line stagger */
+  const heroLines = document.querySelectorAll('.hero__line');
+  if (heroLines.length) {
+    gsap.fromTo(heroLines,
+      { y: 60, opacity: 0 },
+      {
+        y: 0, opacity: 1,
+        duration: 1,
+        stagger: 0.15,
+        ease: 'power3.out',
+        delay: 0.3
+      }
+    );
+  }
+
+  /* Hero desc */
+  const heroDesc = document.querySelector('.hero__desc');
+  if (heroDesc) {
+    gsap.fromTo(heroDesc,
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out', delay: 0.75 }
+    );
+  }
+
+  /* Hero actions */
+  const heroActions = document.querySelector('.hero__actions');
+  if (heroActions) {
+    gsap.fromTo(heroActions,
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out', delay: 0.9 }
+    );
+  }
+
+  /* Hero metrics */
+  const heroMetrics = document.querySelector('.hero__metrics');
+  if (heroMetrics) {
+    gsap.fromTo(heroMetrics,
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out', delay: 1.1 }
+    );
+  }
+
+  /* Hero badges stagger */
+  const badges = document.querySelectorAll('.badge');
+  if (badges.length) {
+    gsap.fromTo(badges,
+      { x: -20, opacity: 0 },
+      { x: 0, opacity: 1, duration: 0.5, stagger: 0.08, ease: 'power2.out', delay: 1.0 }
+    );
+  }
+
+  /* Dashboard mockup */
+  const dashboard = document.querySelector('.dashboard-mockup');
+  if (dashboard) {
+    gsap.fromTo(dashboard,
+      { x: 40, opacity: 0, rotateY: -8 },
+      { x: 0, opacity: 1, rotateY: -4, duration: 1.2, ease: 'power3.out', delay: 0.6 }
+    );
+  }
+
+  /* Hero scroll indicator */
+  const heroScroll = document.querySelector('.hero__scroll');
+  if (heroScroll) {
+    gsap.fromTo(heroScroll,
+      { y: 15, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out', delay: 1.3 }
+    );
+  }
+
+  /* Service card hover */
+  document.querySelectorAll('.service-card').forEach(card => {
+    card.addEventListener('mouseenter', function () {
+      gsap.to(this, { y: -6, duration: 0.3, ease: 'power2.out' });
+    });
+    card.addEventListener('mouseleave', function () {
+      gsap.to(this, { y: 0, duration: 0.3, ease: 'power2.out' });
+    });
+  });
+
+  /* Plan card hover */
+  document.querySelectorAll('.plan-card:not(.plan-card--featured)').forEach(card => {
+    card.addEventListener('mouseenter', function () {
+      gsap.to(this, { y: -4, duration: 0.3, ease: 'power2.out' });
+    });
+    card.addEventListener('mouseleave', function () {
+      gsap.to(this, { y: 0, duration: 0.3, ease: 'power2.out' });
+    });
+  });
+
+  /* Growth line draw */
+  const growthPath = document.querySelector('.growth-line__path');
+  if (growthPath) {
+    const length = growthPath.getTotalLength ? growthPath.getTotalLength() : 2000;
+    gsap.fromTo(growthPath,
+      { strokeDashoffset: length },
+      {
+        strokeDashoffset: 0,
+        duration: 2.5,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '.growth-line',
+          start: 'top 85%',
+          toggleActions: 'play none none none'
+        }
+      }
+    );
+  }
+}
+
+/* ─── TYPING EFFECT ─── */
+function initTypingEffect() {
+  /* disabled - no hero tag to animate */
+}
+
+/* ─── MAGNETIC BUTTONS ─── */
+function initMagneticButtons() {
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  if (isTouchDevice) return;
+
+  const buttons = document.querySelectorAll('.magnetic-btn');
+  if (!buttons.length) return;
+
+  const useGSAP = typeof gsap !== 'undefined';
+
+  buttons.forEach(btn => {
+    btn.addEventListener('mousemove', function (e) {
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      const strength = 8;
+
+      if (useGSAP) {
+        gsap.to(this, {
+          x: x / strength,
+          y: y / strength,
+          duration: 0.4,
+          ease: 'power2.out',
+          overwrite: 'auto'
+        });
+      } else {
+        this.style.transform = `translate(${x / strength}px, ${y / strength}px)`;
+      }
+    });
+
+    btn.addEventListener('mouseleave', function () {
+      if (useGSAP) {
+        gsap.to(this, { x: 0, y: 0, duration: 0.4, ease: 'power2.out' });
+      } else {
+        this.style.transform = '';
+      }
+    });
+  });
+}
+
+/* ─── PARALLAX ─── */
+function initParallax() {
+  const useGSAP = typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined';
+  if (!useGSAP) return;
+
+  const badges = document.querySelector('.hero__badges');
+  if (badges) {
+    gsap.to(badges, {
+      y: () => document.querySelector('.hero')?.offsetHeight * 0.08 || 60,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1.5
+      }
+    });
+  }
+
+  const dashboard = document.querySelector('.hero__dashboard');
+  if (dashboard) {
+    gsap.to(dashboard, {
+      y: () => -(document.querySelector('.hero')?.offsetHeight * 0.05) || -40,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1.5
+      }
+    });
+  }
+}
+
+/* ─── THREE.JS HERO ─── */
+function initHeroThree() {
+  const container = document.getElementById('heroCanvas');
+  if (!container) return;
+
+  try {
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    const particles = new THREE.BufferGeometry();
+    const count = 800;
+    const positions = new Float32Array(count * 3);
+    for (let i = 0; i < count * 3; i++) {
+      positions[i] = (Math.random() - 0.5) * 20;
+    }
+    particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+    const material = new THREE.PointsMaterial({
+      color: 0x00FF87,
+      size: 0.03,
+      transparent: true,
+      opacity: 0.6,
+      blending: THREE.AdditiveBlending,
+    });
+    const particleSystem = new THREE.Points(particles, material);
+    scene.add(particleSystem);
+
+    camera.position.z = 8;
+
+    let mouseX = 0, mouseY = 0;
+    document.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+    }, { passive: true });
+
+    const animate = () => {
+      requestAnimationFrame(animate);
+      particleSystem.rotation.y += 0.0003;
+      particleSystem.rotation.x += 0.0001;
+      particleSystem.position.x += (mouseX * 0.3 - particleSystem.position.x) * 0.02;
+      particleSystem.position.y += (mouseY * 0.3 - particleSystem.position.y) * 0.02;
+      renderer.render(scene, camera);
+    };
+    animate();
+
+    const resize = () => {
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    };
+    window.addEventListener('resize', resize);
+
+  } catch (e) {
+    console.warn('Three.js hero init failed:', e);
+  }
+}
+
+/* ─── LOTTIE ─── */
+function initLottieAnimations() {
+  /* Stub: ready for Lottie animations when assets are ready */
+}
 
 /* ─── POPUP DATA ─── */
 const popupData = {
@@ -372,7 +710,7 @@ const popupData = {
       description: 'Proyectos únicos para necesidades específicas. Entrega garantizada y documentación completa.',
       options: [
         { name: 'Landing Page', price: '$299', includes: ['Diseño responsivo', 'Formulario de contacto', 'SEO básico', 'Entrega en 5 días'], duration: 'Proyecto único', cancel: 'No hay reembolso tras iniciar' },
-        { name: 'Tienda Online', price: '$499', includes: ['Hasta 50 productos', 'Pasarela de pagos', 'Gestión de pedidos', 'Entrega en 10 días'], duration: 'Proyecto único', cancel: 'No hay reembolso tras iniciar' },
+        { name: 'Tienda Online con Shopify', price: '$140', includes: ['Tienda en Shopify', 'Catálogo de productos', 'Pasarela de pago', 'Diseño responsivo'], duration: 'Proyecto único', cancel: 'No hay reembolso tras iniciar' },
         { name: 'Web Corporativa', price: '$399', includes: ['Hasta 10 páginas', 'Diseño profesional', 'SEO básico', 'Entrega en 7 días'], duration: 'Proyecto único', cancel: 'No hay reembolso tras iniciar' },
         { name: 'Gestión Redes', price: '$249/mes', includes: ['8 publicaciones/mes', 'Gráficos personalizados', 'Copywriting', 'Community manager'], duration: 'Mes a mes', cancel: 'Cancelar con 7 días de anticipación' }
       ]
@@ -424,7 +762,7 @@ const popupData = {
       description: 'Unique projects for specific needs. Guaranteed delivery and complete documentation.',
       options: [
         { name: 'Landing Page', price: '$299', includes: ['Responsive design', 'Contact form', 'Basic SEO', '5-day delivery'], duration: 'One-time project', cancel: 'No refund after starting' },
-        { name: 'Online Store', price: '$499', includes: ['Up to 50 products', 'Payment gateway', 'Order management', '10-day delivery'], duration: 'One-time project', cancel: 'No refund after starting' },
+        { name: 'Online Store with Shopify', price: '$140', includes: ['Shopify store', 'Product catalog', 'Payment gateway', 'Responsive design'], duration: 'One-time project', cancel: 'No refund after starting' },
         { name: 'Corporate Site', price: '$399', includes: ['Up to 10 pages', 'Professional design', 'Basic SEO', '7-day delivery'], duration: 'One-time project', cancel: 'No refund after starting' },
         { name: 'Social Media', price: '$249/mo', includes: ['8 posts/mo', 'Custom graphics', 'Copywriting', 'Community manager'], duration: 'Month to month', cancel: 'Cancel with 7 days notice' }
       ]
@@ -471,7 +809,7 @@ function openPopup(service) {
             '</ul></div>' +
             '<div class="plan-section"><h5>' + t('popup.duration') + '</h5><p>' + opt.duration + '</p></div>' +
             '<div class="plan-section"><h5>' + t('popup.cancel') + '</h5><p>' + opt.cancel + '</p></div>' +
-            '<a href="https://wa.me/50683886445?text=' + encodeURIComponent(t('popup.wa_plan_prefix') + ' ' + opt.name + ' (' + opt.price + ')') + '" class="btn btn-primary plan-btn" target="_blank">' + t('popup.choose') + '</a>' +
+            '<a href="https://wa.me/50683886445?text=' + encodeURIComponent(t('popup.wa_plan_prefix') + ' ' + opt.name + ' (' + opt.price + ')') + '" class="btn btn--primary plan-btn" target="_blank">' + t('popup.choose') + '</a>' +
           '</div>' +
         '</div>';
     });
@@ -493,21 +831,70 @@ function openPopup(service) {
 
   popup.classList.add('active');
   document.body.style.overflow = 'hidden';
-}
 
-function togglePlan(header) {
-  header.parentElement.classList.toggle('expanded');
+  if (typeof gsap !== 'undefined') {
+    const backdrop = popup.querySelector('.popup__backdrop');
+    const content = popup.querySelector('.popup__content');
+    gsap.set([backdrop, content], { clearProps: 'all' });
+    gsap.fromTo(backdrop, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: 'power2.out' });
+    gsap.fromTo(content, { opacity: 0, y: 20, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: 'power3.out' });
+  }
 }
 
 function closePopup() {
   const popup = document.getElementById('popupOverlay');
   popup.classList.add('closing');
-  setTimeout(function () {
-    popup.classList.remove('active', 'closing');
-    document.body.style.overflow = '';
-  }, 300);
+
+  if (typeof gsap !== 'undefined') {
+    const backdrop = popup.querySelector('.popup__backdrop');
+    const content = popup.querySelector('.popup__content');
+    gsap.to(backdrop, { opacity: 0, duration: 0.2, ease: 'power2.in' });
+    gsap.to(content, {
+      opacity: 0, y: 20, scale: 0.96, duration: 0.3, ease: 'power3.in',
+      onComplete: function () {
+        popup.classList.remove('active', 'closing');
+        document.body.style.overflow = '';
+      }
+    });
+  } else {
+    setTimeout(function () {
+      popup.classList.remove('active', 'closing');
+      document.body.style.overflow = '';
+    }, 300);
+  }
 }
 
-document.addEventListener('keydown', function (e) {
-  if (e.key === 'Escape') closePopup();
+function togglePlan(header) {
+  const option = header.closest('.popup-plan-option');
+  if (!option) return;
+
+  option.classList.toggle('expanded');
+
+  if (typeof gsap !== 'undefined') {
+    const details = option.querySelector('.plan-details');
+    if (details) {
+      if (option.classList.contains('expanded')) {
+        gsap.set(details, { display: 'block', height: 'auto' });
+        gsap.from(details, { height: 0, opacity: 0, duration: 0.3, ease: 'power2.out' });
+      } else {
+        gsap.to(details, {
+          height: 0, opacity: 0, duration: 0.2, ease: 'power2.in',
+          onComplete: function () { gsap.set(details, { display: 'none', clearProps: 'height' }); }
+        });
+      }
+    }
+  }
+}
+
+/* ─── MOBILE MENU ─── */
+document.addEventListener('DOMContentLoaded', function () {
+  const toggle = document.getElementById('menuToggle');
+  const nav = document.querySelector('.navbar__links');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function () {
+      const expanded = this.getAttribute('aria-expanded') === 'true' ? false : true;
+      this.setAttribute('aria-expanded', expanded);
+      nav.classList.toggle('open');
+    });
+  }
 });
