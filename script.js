@@ -289,7 +289,7 @@ function initCounters() {
       const progress = Math.min(elapsed / duration, 1);
       const ease = 1 - Math.pow(1 - progress, 3);
       const current = Math.floor(ease * target);
-      el.textContent = current.toLocaleString();
+      el.textContent = current;
 
       if (progress < 1) {
         if (isRaf) {
@@ -298,7 +298,7 @@ function initCounters() {
           setTimeout(() => step(performance.now()), 16);
         }
       } else {
-        el.textContent = target.toLocaleString();
+        el.textContent = target;
       }
     };
 
